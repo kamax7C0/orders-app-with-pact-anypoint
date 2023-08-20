@@ -1,0 +1,47 @@
+#%RAML 1.0
+title: OrdersAPI
+baseUri: http://api.example.com/
+version: v1
+mediaType: application/json
+
+/orders:
+  get:
+    description: Retrieve a list of orders.
+    responses:
+      200:
+        body:
+          application/json:
+            example: [
+                {
+                  "id": 1,
+                  "items": [
+                    {
+                      "name": "burger",
+                      "quantity": 2,
+                      "value": 100
+                    }
+                  ]
+                }
+              ]
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: The unique identifier for the order.
+                items:
+                  type: array
+                  description: List of items in the order.
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: Name of the item.
+                      quantity:
+                        type: integer
+                        description: Quantity of the item ordered.
+                      value:
+                        type: number
+                        description: Value of the item.

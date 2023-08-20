@@ -1,0 +1,24 @@
+name: Verify the API against the pact 
+on:
+    workflow_dispatch:
+env:
+  MOCKING_BASE_URL: https://anypoint.mulesoft.com/mocking/api/v1/links/58034f07-b1ed-46e1-9151-cc5bece85bd4
+jobs:
+ verify-pact:
+  runs-on: ubuntu-latest
+  steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@master
+    - name: Run the pact verification process
+      run: |
+          docker run --rm \
+             -e PACT_BROKER_BASE_URL="${{ secrets.PACT_BROKER_BASE_URL }}" \
+             -e PACT_BROKER_TOKEN="${{ secrets.PACT_BROKER_TOKEN }}" \
+              pactfoundation/pact-cli:latest \
+              verify \
+              --provider-base-url $MOCKING_BASE_URL \
+              --provider OrdersAPI \
+              --provider-app-version ${{ github.sha }} \
+              --provider-version-tag main \
+              --publish-verification-results \
+              --wait 3

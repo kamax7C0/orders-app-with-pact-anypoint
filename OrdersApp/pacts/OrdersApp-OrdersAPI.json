@@ -1,0 +1,78 @@
+{
+  "consumer": {
+    "name": "OrdersApp"
+  },
+  "interactions": [
+    {
+      "description": "a request for orders",
+      "providerStates": [
+        {
+          "name": "there are orders"
+        }
+      ],
+      "request": {
+        "headers": {
+          "Accept": "application/json"
+        },
+        "method": "GET",
+        "path": "/orders"
+      },
+      "response": {
+        "body": [
+          {
+            "id": 1,
+            "items": [
+              {
+                "name": "burger",
+                "quantity": 2,
+                "value": 100
+              }
+            ]
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].items": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            }
+          },
+          "header": {}
+        },
+        "status": 200
+      }
+    }
+  ],
+  "metadata": {
+    "pact-js": {
+      "version": "12.1.0"
+    },
+    "pactRust": {
+      "ffi": "0.4.7",
+      "models": "1.1.9"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "OrdersAPI"
+  }
+}
